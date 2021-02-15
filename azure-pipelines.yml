@@ -47,7 +47,7 @@ steps:
   displayName: 'Build Projects'
   inputs:
     command: 'build'
-    projects: '/src/*.sln'
+    projects: '**/*.sln'
     arguments: '--no-restore'
 
 - task: DotNetCoreCLI@2
