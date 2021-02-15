@@ -57,7 +57,7 @@ steps:
     configuration: $(BuildConfiguration)
     projects: '**/*[Tt]ests/*Tests.csproj'
     arguments: '--collect:"XPlat Code Coverage" --no-build --no-restore --logger trx --results-directory $(TestResultsDirectory)'
-    publishTestResults: false
+    publishTestResults: true
     testRunTitle: 'Running Unit Tests'
 
 - task: reportgenerator@4
