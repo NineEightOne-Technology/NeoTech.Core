@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft;
 
-namespace NeoTech.Transactions
+namespace NeoTech.Core.Transactions
 {
 	/// <summary>
 	/// A command manager that uses an internal <see cref="Stack{T}"/> to store commands. This is most useful to revert actions in the correct order.

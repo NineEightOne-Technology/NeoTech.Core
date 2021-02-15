@@ -1,5 +1,5 @@
 ﻿using Moq;
-using NeoTech.Transactions;
+using NeoTech.Core.Transactions;
 using System;
 using System.Collections.Generic;
 using SystemTransaction = System.Transactions.Transaction;

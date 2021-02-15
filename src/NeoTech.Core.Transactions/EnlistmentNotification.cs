@@ -3,7 +3,7 @@ using System;
 using System.Transactions;
 using SystemTransactionManager = System.Transactions.TransactionManager;
 
-namespace NeoTech.Transactions
+namespace NeoTech.Core.Transactions
 {
 	/// <summary>
 	/// Acts as an <see cref="IEnlistmentNotification"/> implementation offering pre and post events for each

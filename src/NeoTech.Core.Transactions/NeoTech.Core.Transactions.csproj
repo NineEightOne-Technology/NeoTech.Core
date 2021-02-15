@@ -12,6 +12,7 @@
     <RepositoryType>GitHub</RepositoryType>
     <PackageTags>Transaction</PackageTags>
     <Copyright>© NineEightOne Technology Inc. All rights reserved.</Copyright>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

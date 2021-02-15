@@ -1,5 +1,5 @@
 ﻿using Moq;
-using NeoTech.Transactions;
+using NeoTech.Core.Transactions;
 using System.Transactions;
 
 namespace NeoTech.Transaction.Tests.UsingEnlistmentNotification

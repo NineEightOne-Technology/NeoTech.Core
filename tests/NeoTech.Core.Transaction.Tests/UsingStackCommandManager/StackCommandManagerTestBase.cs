@@ -1,4 +1,4 @@
-﻿using NeoTech.Transactions;
+﻿using NeoTech.Core.Transactions;
 
 namespace NeoTech.Transaction.Tests.UsingStackCommandManager
 {

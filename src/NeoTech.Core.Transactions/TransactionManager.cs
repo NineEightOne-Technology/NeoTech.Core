@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Transactions;
 
-namespace NeoTech.Transactions
+namespace NeoTech.Core.Transactions
 {
 	/// <summary>
 	/// Acts as a manager that can subscribe itself to an occuring transaction. This manager provides callbacks for the commit and rollback events of a transaction.

@@ -4,6 +4,24 @@
     <TargetFramework>net5.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <Version>0.1.0</Version>
+
+    <Authors>Marcel Konnegen</Authors>
+
+    <Company>NineEightOne Technology Inc.</Company>
+
+    <Copyright>© NineEightOne Technology Inc. All rights reserved.</Copyright>
+
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+
+    <PackageProjectUrl>https://github.com/NineEightOne-Technology/NeoTech.Core</PackageProjectUrl>
+
+    <RepositoryUrl>https://github.com/NineEightOne-Technology/NeoTech.Core</RepositoryUrl>
+
+    <RepositoryType>GitHub</RepositoryType>
+
+    <PackageTags>Tests</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,6 +45,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\NeoTech.Core.Transactions\NeoTech.Core.Transactions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
