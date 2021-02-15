@@ -78,12 +78,14 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'pack'
-    packagesToPack: '**/*.csproj;!''**/*[Tt]ests/*Tests.csproj'''
-    nobuild: true
+    packagesToPack: '**/*.csproj;!**/*[Tt]ests/*Tests.csproj'
+    packDirectory: '$(Build.ArtifactStagingDirectory)/nuget'
+    nobuild: false
+    configuration: $(BuildConfiguration)
     versioningScheme: 'off'
 
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: '$(Pipeline.Workspace)'
+    targetPath: '$(Build.ArtifactStagingDirectory)'
     artifact: 'drop'
     publishLocation: 'pipeline'
