@@ -56,8 +56,9 @@ steps:
   inputs:
     command: 'test'
     projects: '**/*[Tt]ests/*Tests.csproj'
-    arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage" --no-build --no-restore'
+    arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage" --no-restore'
     publishTestResults: true
+    nobuild: true
     testRunTitle: 'Running Unit Tests'
 
 - task: reportgenerator@4
@@ -79,7 +80,7 @@ steps:
   inputs:
     command: 'pack'
     arguments: '--configuration $(BuildConfiguration) --no-restore'
-    packagesToPack: '**/*.csproj;'
+    packagesToPack: '**/*.csproj;!**/*[Tt]ests/*Tests.csproj'
     packDirectory: '$(Build.ArtifactStagingDirectory)/nuget'
     nobuild: true
     versioningScheme: 'off'
