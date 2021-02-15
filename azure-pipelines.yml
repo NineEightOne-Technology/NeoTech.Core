@@ -1,0 +1,84 @@
+# Test Pipeline
+name: '$(Build.DefinitionName) $(date:yyyyMMdd)$(rev:.r)'
+
+trigger:
+- main
+
+workspace:
+  clean: 'all'
+
+variables:
+  BuildConfiguration: 'Release'
+  BuildImage: 'ubuntu-latest'
+  TestCoverageReportDirectory: '$(Agent.TempDirectory)/coveragereport'
+  disable.coverage.autogenerate: 'true'
+
+pool:
+  vmImage: '$(BuildImage)'
+  
+steps:
+- checkout: 'self'
+  displayName: 'Check Out Source Code'
+  clean: 'true'
+
+- task: UseDotNet@2
+  displayName: 'Get .NET SDK'
+  inputs:
+    packageType: 'sdk'
+    useGlobalJson: true
+
+- task: DotNetCoreCLI@2
+  displayName: 'Restore nuget Packages'
+  inputs:
+    command: 'restore'
+    projects: '**/*.csproj'
+    feedsToUse: 'config'
+    nugetConfigPath: 'nuget.config'
+    verbosityRestore: 'Normal'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Build Projects'
+  inputs:
+    command: 'build'
+    projects: '**/*.csproj'
+    arguments: '--no-restore'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Run Unit Tests'
+  inputs:
+    command: 'test'
+    projects: '**/*[Tt]ests/*Tests.csproj'
+    arguments: '--collect:"XPlat Code Coverage" --no-restore'
+    testRunTitle: 'Running Unit Tests'
+
+- task: reportgenerator@4
+  displayName: 'Generate Code Coverage Report'
+  inputs:
+    reports: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
+    targetdir: '$(TestCoverageReportDirectory)'
+    reporttypes: 'HtmlInline_AzurePipelines;Cobertura'
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish Code Coverage Report'
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    reportDirectory: '$(TestCoverageReportDirectory)'
+    summaryFileLocation: '$(TestCoverageReportDirectory)/Cobertura.xml'
+    failIfCoverageEmpty: true
+
+- task: DotNetCoreCLI@2
+  displayName: 'Publish Projects'
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    nobuild: true
+    configuration: $(BuildConfiguration)
+    arguments: '--output $(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Build Artifacts'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    Parallel: true
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
