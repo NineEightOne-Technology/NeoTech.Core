@@ -54,6 +54,7 @@ steps:
   displayName: 'Run Unit Tests'
   inputs:
     command: 'test'
+    configuration: $(BuildConfiguration)
     projects: '**/*[Tt]ests/*Tests.csproj'
     arguments: '--collect:"XPlat Code Coverage" --no-build --no-restore --logger trx --results-directory $(TestResultsDirectory)'
     publishTestResults: false
@@ -62,7 +63,7 @@ steps:
 - task: reportgenerator@4
   displayName: 'Generate Code Coverage Report'
   inputs:
-    reports: '$(TestResultsDirectory)/coverage.cobertura.xml'
+    reports: '$(TestResultsDirectory)/**/coverage.cobertura.xml'
     targetdir: '$(TestCoverageReportDirectory)'
     reporttypes: 'HtmlInline_AzurePipelines;Cobertura'
 
