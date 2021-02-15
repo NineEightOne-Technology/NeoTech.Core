@@ -71,9 +71,8 @@ steps:
   inputs:
     command: 'publish'
     publishWebProjects: false
-    nobuild: true
-    configuration: $(BuildConfiguration)
     arguments: '--output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: false
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Build Artifacts'
