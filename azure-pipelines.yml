@@ -79,7 +79,7 @@ steps:
   inputs:
     command: 'pack'
     arguments: '--no-restore'
-    packagesToPack: '/src/**/*.csproj;'
+    packagesToPack: '**/*.csproj;'
     packDirectory: '$(Build.ArtifactStagingDirectory)/nuget'
     nobuild: true
     configuration: $(BuildConfiguration)
