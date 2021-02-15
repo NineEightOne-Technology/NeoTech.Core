@@ -15,7 +15,7 @@ variables:
 
 pool:
   vmImage: '$(BuildImage)'
-  
+
 steps:
 - checkout: 'self'
   displayName: 'Check Out Source Code'
@@ -74,6 +74,13 @@ steps:
     projects: 'src/**/*.csproj'
     arguments: '--output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: false
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'pack'
+    packagesToPack: '**/*.csproj;!**/*.Tests.csproj'
+    nobuild: true
+    versioningScheme: 'off'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Build Artifacts'
