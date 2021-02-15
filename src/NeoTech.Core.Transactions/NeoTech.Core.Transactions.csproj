@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+	<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+	<EnableNETAnalyzers>true</EnableNETAnalyzers>
     <Version>0.1.0</Version>
     <Authors>m.konnegen</Authors>
     <Company>NineEightOne Technology Inc.</Company>
@@ -16,13 +17,13 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>bin\Release\netstandard2.0\</OutputPath>
-    <DocumentationFile>bin\Release\netstandard2.0\NeoTech.Transactions.xml</DocumentationFile>
+    <OutputPath>bin\Release</OutputPath>
+    <DocumentationFile>bin\Release\NeoTech.Transactions.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <OutputPath>bin\Debug\netstandard2.0\</OutputPath>
+    <OutputPath>bin\Debug</OutputPath>
     <DocumentationFile></DocumentationFile>
   </PropertyGroup>
 

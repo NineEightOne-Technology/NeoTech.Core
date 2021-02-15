@@ -2,6 +2,7 @@
 	<PropertyGroup>
 		<TargetFramework>net5.0</TargetFramework>
 		<IsPackable>false</IsPackable>
+		<IsPublishable>false</IsPublishable>
 		<Version>0.1.0</Version>
 		<Authors>m.konnegen</Authors>
 		<Company>NineEightOne Technology Inc.</Company>
