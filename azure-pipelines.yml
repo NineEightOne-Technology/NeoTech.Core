@@ -37,6 +37,7 @@ steps:
 - task: DotNetCoreCLI@2
   displayName: 'Restore nuget Packages'
   inputs:
+    arguments: '--configuration $(BuildConfiguration)'
     command: 'restore'
     projects: '**/*.sln'
     feedsToUse: 'config'
@@ -46,18 +47,16 @@ steps:
 - task: DotNetCoreCLI@2
   displayName: 'Build Projects'
   inputs:
-    configuration: $(BuildConfiguration)
     command: 'build'
     projects: '**/*.sln'
-    arguments: '--no-restore'
+    arguments: '--configuration $(BuildConfiguration) --no-restore'
 
 - task: DotNetCoreCLI@2
   displayName: 'Run Unit Tests'
   inputs:
     command: 'test'
-    configuration: $(BuildConfiguration)
     projects: '**/*[Tt]ests/*Tests.csproj'
-    arguments: '--collect:"XPlat Code Coverage" --no-build --no-restore'
+    arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage" --no-build --no-restore'
     publishTestResults: true
     testRunTitle: 'Running Unit Tests'
 
@@ -79,11 +78,10 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'pack'
-    arguments: '--no-restore'
+    arguments: '--configuration $(BuildConfiguration) --no-restore'
     packagesToPack: '**/*.csproj;'
     packDirectory: '$(Build.ArtifactStagingDirectory)/nuget'
     nobuild: true
-    configuration: $(BuildConfiguration)
     versioningScheme: 'off'
     verbosityPack: Normal
 
