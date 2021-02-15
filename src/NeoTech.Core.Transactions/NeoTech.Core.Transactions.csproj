@@ -4,12 +4,12 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <Version>0.1.0</Version>
-    <Authors>Marcel Konnegen</Authors>
+    <Authors>m.konnegen</Authors>
     <Company>NineEightOne Technology Inc.</Company>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/NineEightOne-Technology/NeoTech.Core</PackageProjectUrl>
     <RepositoryUrl>https://github.com/NineEightOne-Technology/NeoTech.Core</RepositoryUrl>
-    <RepositoryType>GitHub</RepositoryType>
+    <RepositoryType>git</RepositoryType>
     <PackageTags>Transaction</PackageTags>
     <Copyright>© NineEightOne Technology Inc. All rights reserved.</Copyright>
     <SignAssembly>false</SignAssembly>
@@ -28,13 +28,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Validation" Version="16.8.33" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\..\LICENSE">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
   </ItemGroup>
 
 </Project>
