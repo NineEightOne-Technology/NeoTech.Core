@@ -4,12 +4,19 @@ name: '$(Build.DefinitionName) $(date:yyyyMMdd)$(rev:.r)'
 trigger:
 - main
 
+pr: 
+  branches:
+    include:
+      - main
+
+
 workspace:
   clean: 'all'
 
 variables:
   BuildConfiguration: 'Release'
   BuildImage: 'ubuntu-latest'
+  TestResultsDirectory: '$(Agent.TempDirectory)/TestResults'
   TestCoverageReportDirectory: '$(Agent.TempDirectory)/coveragereport'
   disable.coverage.autogenerate: 'true'
 
@@ -34,7 +41,7 @@ steps:
     projects: '**/*.csproj'
     feedsToUse: 'config'
     nugetConfigPath: 'nuget.config'
-    verbosityRestore: 'Normal'
+    verbosityRestore: 'Minimal'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build Projects'
@@ -48,13 +55,13 @@ steps:
   inputs:
     command: 'test'
     projects: '**/*[Tt]ests/*Tests.csproj'
-    arguments: '--collect:"XPlat Code Coverage" --no-restore'
+    arguments: '--collect:"XPlat Code Coverage" --no-build --no-restore --logger trx --results-directory $(TestResultsDirectory)'
     testRunTitle: 'Running Unit Tests'
 
 - task: reportgenerator@4
   displayName: 'Generate Code Coverage Report'
   inputs:
-    reports: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
+    reports: '$(TestResultsDirectory)/coverage.cobertura.xml'
     targetdir: '$(TestCoverageReportDirectory)'
     reporttypes: 'HtmlInline_AzurePipelines;Cobertura'
 
@@ -66,29 +73,29 @@ steps:
     summaryFileLocation: '$(TestCoverageReportDirectory)/Cobertura.xml'
     failIfCoverageEmpty: true
 
-- task: DotNetCoreCLI@2
-  displayName: 'Publish Projects'
-  inputs:
-    command: 'publish'
-    publishWebProjects: false
-    projects: 'src/**/*.csproj'
-    arguments: '--output $(Build.ArtifactStagingDirectory)'
-    zipAfterPublish: false
+# - task: DotNetCoreCLI@2
+#   displayName: 'Publish Projects'
+#   inputs:
+#     command: 'publish'
+#     publishWebProjects: false
+#     projects: 'src/**/*.csproj'
+#     arguments: '--output $(Build.ArtifactStagingDirectory)'
+#     zipAfterPublish: false
 
-- task: DotNetCoreCLI@2
-  displayName: Pack Projects
-  inputs:
-    command: 'pack'
-    packagesToPack: '**/*.csproj;!**/*.Tests.csproj'
-    versioningScheme: 'off'
-    arguments: '--no-build --no-restore'
-    configuration: $(BuildConfiguration)
-    nobuild: true    
+# - task: DotNetCoreCLI@2
+#   displayName: Pack Projects
+#   inputs:
+#     command: 'pack'
+#     packagesToPack: '**/*.csproj;!**/*.Tests.csproj'
+#     versioningScheme: 'off'
+#     arguments: '--no-build --no-restore'
+#     configuration: $(BuildConfiguration)
+#     nobuild: true    
 
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Build Artifacts'
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    Parallel: true
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
+# - task: PublishBuildArtifacts@1
+#   displayName: 'Publish Build Artifacts'
+#   inputs:
+#     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+#     Parallel: true
+#     ArtifactName: 'drop'
+#     publishLocation: 'Container'
