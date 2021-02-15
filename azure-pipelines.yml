@@ -38,7 +38,7 @@ steps:
   displayName: 'Restore nuget Packages'
   inputs:
     command: 'restore'
-    projects: '/src/*.sln'
+    projects: '**/*.sln'
     feedsToUse: 'config'
     nugetConfigPath: 'nuget.config'
     verbosityRestore: 'Minimal'
