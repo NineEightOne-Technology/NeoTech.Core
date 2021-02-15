@@ -74,3 +74,16 @@ steps:
     reportDirectory: '$(TestCoverageReportDirectory)'
     summaryFileLocation: '$(TestCoverageReportDirectory)/Cobertura.xml'
     failIfCoverageEmpty: true
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'pack'
+    packagesToPack: '**/*.csproj;!''**/*[Tt]ests/*Tests.csproj'''
+    nobuild: true
+    versioningScheme: 'off'
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Pipeline.Workspace)'
+    artifact: 'drop'
+    publishLocation: 'pipeline'
