@@ -55,7 +55,7 @@ steps:
   inputs:
     command: 'test'
     configuration: $(BuildConfiguration)
-    projects: '**/*[Tt]ests/*Tests.dll'
+    projects: '**/*[Tt]ests/*Tests.csproj'
     arguments: '--collect:"XPlat Code Coverage" --no-build --no-restore --logger trx --results-directory $(TestResultsDirectory)'
     publishTestResults: false
     testRunTitle: 'Running Unit Tests'
