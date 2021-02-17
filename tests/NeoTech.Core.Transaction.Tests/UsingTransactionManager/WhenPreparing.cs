@@ -1,78 +1,78 @@
-﻿using FluentAssertions;
-using Moq;
-using System.Transactions;
-using Xunit;
+﻿//using FluentAssertions;
+//using Moq;
+//using System.Transactions;
+//using Xunit;
 
-namespace NeoTech.Transaction.Tests.UsingEnlistmentNotificationManager
-{
-	public sealed class WhenPreparing : TransactionManagerTestBase
-	{
-		[Fact]
-		public void ShouldNotPrepareWithoutCompleteTransctionScope()
-		{
-			AttachToPrepare();
+//namespace NeoTech.Transaction.Tests.UsingEnlistmentNotificationManager
+//{
+//	public sealed class WhenPreparing : TransactionManagerTestBase
+//	{
+//		[Fact]
+//		public void ShouldNotPrepareWithoutCompleteTransctionScope()
+//		{
+//			AttachToPrepare();
 
-			using (var transactionScope = new TransactionScope())
-			{
-				Sut.HookToCurrentTransaction();
-			}
+//			using (var transactionScope = new TransactionScope())
+//			{
+//				Sut.HookToCurrentTransaction();
+//			}
 
-			PreparingBackActionMock.Verify(action => action(), Times.Never);
-			PreparedActionMock.Verify(action => action(), Times.Never);
-		}
+//			PreparingBackActionMock.Verify(action => action(), Times.Never);
+//			PreparedActionMock.Verify(action => action(), Times.Never);
+//		}
 
-		[Fact]
-		public void ShouldPrepareOnCompleteTransctionScope()
-		{
-			AttachToPrepare();
+//		[Fact]
+//		public void ShouldPrepareOnCompleteTransctionScope()
+//		{
+//			AttachToPrepare();
 
-			using (var transactionScope = new TransactionScope())
-			{
-				Sut.HookToCurrentTransaction();
+//			using (var transactionScope = new TransactionScope())
+//			{
+//				Sut.HookToCurrentTransaction();
 
-				transactionScope.Complete();
-			}
+//				transactionScope.Complete();
+//			}
 
-			PreparingBackActionMock.Verify(action => action(), Times.Once);
-			PreparedActionMock.Verify(action => action(), Times.Once);
-		}
+//			PreparingBackActionMock.Verify(action => action(), Times.Once);
+//			PreparedActionMock.Verify(action => action(), Times.Once);
+//		}
 
-		[Fact]
-		public void ShouldInvokePreparingBeforePrepareOnCompleteTransactionScope()
-		{
-			AttachToPrepare();
+//		[Fact]
+//		public void ShouldInvokePreparingBeforePrepareOnCompleteTransactionScope()
+//		{
+//			AttachToPrepare();
 
-			using (var transactionScope = new TransactionScope())
-			{
-				Sut.HookToCurrentTransaction();
+//			using (var transactionScope = new TransactionScope())
+//			{
+//				Sut.HookToCurrentTransaction();
 
-				transactionScope.Complete();
-			}
+//				transactionScope.Complete();
+//			}
 
-			ExecutionOrder
-				.Should().HaveCount(2)
-				.And.ContainInOrder(
-					nameof(PreparingBackActionMock),
-					nameof(PreparedActionMock));
-		}
+//			ExecutionOrder
+//				.Should().HaveCount(2)
+//				.And.ContainInOrder(
+//					nameof(PreparingBackActionMock),
+//					nameof(PreparedActionMock));
+//		}
 
-		[Fact]
-		public void ShouldNotThrowIfPrepareActionsNotAttached()
-		{
-			using var transactionScope = new TransactionScope();
+//		[Fact]
+//		public void ShouldNotThrowIfPrepareActionsNotAttached()
+//		{
+//			using var transactionScope = new TransactionScope();
 
-			Sut.HookToCurrentTransaction();
-		}
+//			Sut.HookToCurrentTransaction();
+//		}
 
-		[Fact]
-		public void ShouldNotPrepareWithoutTransaction()
-		{
-			AttachToPrepare();
+//		[Fact]
+//		public void ShouldNotPrepareWithoutTransaction()
+//		{
+//			AttachToPrepare();
 
-			Sut.HookToCurrentTransaction();
+//			Sut.HookToCurrentTransaction();
 
-			PreparingBackActionMock.Verify(action => action(), Times.Never);
-			PreparedActionMock.Verify(action => action(), Times.Never);
-		}
-	}
-}
+//			PreparingBackActionMock.Verify(action => action(), Times.Never);
+//			PreparedActionMock.Verify(action => action(), Times.Never);
+//		}
+//	}
+//}

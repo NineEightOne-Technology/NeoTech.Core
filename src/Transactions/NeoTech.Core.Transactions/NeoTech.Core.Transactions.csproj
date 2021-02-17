@@ -35,5 +35,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\NeoTech.Core.Abstractions\NeoTech.Core.Abstractions.csproj" />
     <ProjectReference Include="..\..\NeoTech.Core\NeoTech.Core.csproj" />
+    <ProjectReference Include="..\NeoTech.Core.Transactions.Abstractions\NeoTech.Core.Transactions.Abstractions.csproj" />
   </ItemGroup>
 </Project>

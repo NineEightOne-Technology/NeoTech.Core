@@ -1,54 +1,54 @@
-﻿using FluentAssertions;
-using Moq;
-using System;
-using System.Transactions;
-using Xunit;
-using SystemTransaction = System.Transactions.Transaction;
+﻿//using FluentAssertions;
+//using Moq;
+//using System;
+//using System.Transactions;
+//using Xunit;
+//using SystemTransaction = System.Transactions.Transaction;
 
-namespace NeoTech.Transaction.Tests.UsingEnlistmentNotification
-{
-	public sealed class WhenInDoubt : EnlistmentNotificationTestBase
-	{
-		[Fact]
-		public void ShouldThrowOnEnlistmentNull()
-		{
-			Sut
-				.Invoking(x => x.InDoubt(null))
-				.Should().ThrowExactly<ArgumentNullException>();
-		}
+//namespace NeoTech.Transaction.Tests.UsingEnlistmentNotification
+//{
+//	public sealed class WhenInDoubt : EnlistmentNotificationTestBase
+//	{
+//		[Fact]
+//		public void ShouldThrowOnEnlistmentNull()
+//		{
+//			Sut
+//				.Invoking(x => x.InDoubt(null))
+//				.Should().ThrowExactly<ArgumentNullException>();
+//		}
 
-		[Fact]
-		public void ShouldInvokeCallbacks()
-		{
-			var onDoubtEventhandlerMock = new Mock<EventHandler>();
-			var onDoubtingEventhandlerMock = new Mock<EventHandler>();
+//		[Fact]
+//		public void ShouldInvokeCallbacks()
+//		{
+//			var onDoubtEventhandlerMock = new Mock<EventHandler>();
+//			var onDoubtingEventhandlerMock = new Mock<EventHandler>();
 
-			Sut.OnDoubted += onDoubtEventhandlerMock.Object;
-			Sut.OnDoubting += onDoubtingEventhandlerMock.Object;
+//			Sut.OnDoubted += onDoubtEventhandlerMock.Object;
+//			Sut.OnDoubting += onDoubtingEventhandlerMock.Object;
 
-			using (var transaction = new TransactionScope())
-			{
-				var enlistment = SystemTransaction.Current.EnlistVolatile(
-					EnlistmentNotificationMock.Object,
-					EnlistmentOptions.None);
+//			using (var transaction = new TransactionScope())
+//			{
+//				var enlistment = SystemTransaction.Current.EnlistVolatile(
+//					EnlistmentNotificationMock.Object,
+//					EnlistmentOptions.None);
 
-				Sut.InDoubt(enlistment);
-			}
+//				Sut.InDoubt(enlistment);
+//			}
 
-			onDoubtEventhandlerMock.Verify(x => x(Sut, EventArgs.Empty), Times.Once);
-			onDoubtingEventhandlerMock.Verify(x => x(Sut, EventArgs.Empty), Times.Once);
-		}
+//			onDoubtEventhandlerMock.Verify(x => x(Sut, EventArgs.Empty), Times.Once);
+//			onDoubtingEventhandlerMock.Verify(x => x(Sut, EventArgs.Empty), Times.Once);
+//		}
 
-		[Fact]
-		public void ShouldInvokeRollback()
-		{
-			using var transaction = new TransactionScope();
+//		[Fact]
+//		public void ShouldInvokeRollback()
+//		{
+//			using var transaction = new TransactionScope();
 
-			var enlistment = SystemTransaction.Current.EnlistVolatile(
-				EnlistmentNotificationMock.Object,
-				EnlistmentOptions.None);
+//			var enlistment = SystemTransaction.Current.EnlistVolatile(
+//				EnlistmentNotificationMock.Object,
+//				EnlistmentOptions.None);
 
-			Sut.InDoubt(enlistment);
-		}
-	}
-}
+//			Sut.InDoubt(enlistment);
+//		}
+//	}
+//}
