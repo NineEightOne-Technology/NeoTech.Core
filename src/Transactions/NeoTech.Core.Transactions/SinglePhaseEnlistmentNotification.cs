@@ -37,6 +37,8 @@ namespace NeoTech.Core.Transactions
 
 		public void SinglePhaseCommit(SinglePhaseEnlistment singlePhaseEnlistment)
 		{
+			Requires.NotNull(singlePhaseEnlistment, nameof(singlePhaseEnlistment));
+
 			try
 			{
 				foreach (var executeAction in _parent.OnExecuteActions)
