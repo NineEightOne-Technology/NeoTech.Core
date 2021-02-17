@@ -1,17 +1,17 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using Moq;
-using System;
 using Xunit;
 
-namespace NeoTech.Transaction.Tests.UsingStackCommandManager
+namespace NeoTech.Core.Tests.Command.UsingUndoCommandManager
 {
-	public sealed class WhenAddingAction : StackCommandManagerTestBase
+	public sealed class WhenAddingAction : UndoCommandManagerTestBase
 	{
 		[Fact]
 		public void ShouldThrowOnActionNull()
 		{
 			Sut
-				.Invoking(x => x.AddAction(null))
+				.Invoking(x => x.AddCommand(null))
 				.Should().ThrowExactly<ArgumentNullException>();
 		}
 
@@ -20,7 +20,7 @@ namespace NeoTech.Transaction.Tests.UsingStackCommandManager
 		{
 			var action = new Mock<Action>();
 
-			Sut.AddAction(action.Object);
+			Sut.AddCommand(action.Object);
 			Sut.Execute();
 
 			action.Verify(a => a(), Times.Once);

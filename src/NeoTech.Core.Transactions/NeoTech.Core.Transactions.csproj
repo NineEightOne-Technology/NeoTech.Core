@@ -28,6 +28,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="5.10.3" />
     <PackageReference Include="Microsoft.VisualStudio.Validation" Version="16.8.33" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NeoTech.Core.Abstractions\NeoTech.Core.Abstractions.csproj" />
+    <ProjectReference Include="..\NeoTech.Core\NeoTech.Core.csproj" />
   </ItemGroup>
 </Project>

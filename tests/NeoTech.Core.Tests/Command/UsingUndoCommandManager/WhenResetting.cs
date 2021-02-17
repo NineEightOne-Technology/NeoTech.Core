@@ -1,14 +1,14 @@
-﻿using AutoFixture.Xunit2;
-using FluentAssertions.Execution;
-using Moq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using AutoFixture.Xunit2;
+using FluentAssertions.Execution;
+using Moq;
 using Xunit;
 
-namespace NeoTech.Transaction.Tests.UsingStackCommandManager
+namespace NeoTech.Core.Tests.Command.UsingUndoCommandManager
 {
-	public sealed class WhenResetting : StackCommandManagerTestBase
+	public sealed class WhenResetting : UndoCommandManagerTestBase
 	{
 		[Theory]
 		[AutoData]
@@ -20,7 +20,7 @@ namespace NeoTech.Transaction.Tests.UsingStackCommandManager
 			{
 				var actionMock = new Mock<Action>();
 
-				Sut.AddAction(actionMock.Object);
+				Sut.AddCommand(actionMock.Object);
 			}
 
 			Sut.Reset();

@@ -1,15 +1,15 @@
-﻿using AutoFixture;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using AutoFixture;
 using AutoFixture.Xunit2;
 using FluentAssertions;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using Xunit;
 
-namespace NeoTech.Transaction.Tests.UsingStackCommandManager
+namespace NeoTech.Core.Tests.Command.UsingUndoCommandManager
 {
-	public sealed class WhenExecuting : StackCommandManagerTestBase
+	public sealed class WhenExecuting : UndoCommandManagerTestBase
 	{
 		private readonly List<Mock<Action>> _mockedActions;
 		private readonly List<int> _actionInvocationIndexes;
@@ -34,7 +34,7 @@ namespace NeoTech.Transaction.Tests.UsingStackCommandManager
 
 				_mockedActions.Add(actionMock);
 
-				Sut.AddAction(actionMock.Object);
+				Sut.AddCommand(actionMock.Object);
 			}
 		}
 
@@ -43,7 +43,7 @@ namespace NeoTech.Transaction.Tests.UsingStackCommandManager
 		{
 			Sut.Execute();
 
-			foreach(var mockedAction in _mockedActions)
+			foreach (var mockedAction in _mockedActions)
 			{
 				mockedAction.Verify(action => action(), Times.Once);
 			}
@@ -60,7 +60,6 @@ namespace NeoTech.Transaction.Tests.UsingStackCommandManager
 			{
 				mockedAction.Verify(action => action(), Times.Once);
 			}
-
 		}
 
 		[Fact]
