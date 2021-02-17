@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Validation" Version="16.8.33" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NeoTech.Core.Abstractions\NeoTech.Core.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>
