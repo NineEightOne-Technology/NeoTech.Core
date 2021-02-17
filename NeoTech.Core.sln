@@ -30,6 +30,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeoTech.Core.Transaction.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeoTech.Core.Transactions.Abstractions", "src\Transactions\NeoTech.Core.Transactions.Abstractions\NeoTech.Core.Transactions.Abstractions.csproj", "{2ECCD1DB-5BA6-4154-B74E-BCF451C98F1C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeoTech.Core.Tests", "tests\NeoTech.Core.Tests\NeoTech.Core.Tests.csproj", "{62B2DD44-1F48-4A52-BEBB-9F927F86421A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -64,6 +66,10 @@ Global
 		{2ECCD1DB-5BA6-4154-B74E-BCF451C98F1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2ECCD1DB-5BA6-4154-B74E-BCF451C98F1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2ECCD1DB-5BA6-4154-B74E-BCF451C98F1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62B2DD44-1F48-4A52-BEBB-9F927F86421A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62B2DD44-1F48-4A52-BEBB-9F927F86421A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62B2DD44-1F48-4A52-BEBB-9F927F86421A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62B2DD44-1F48-4A52-BEBB-9F927F86421A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +80,7 @@ Global
 		{AB1E13F2-471B-452C-946E-FCAA80D401A5} = {D31C1A5B-8566-4A5C-AF85-8690402BAF1A}
 		{724E56F4-5B2E-421D-BB5B-2B74B27E3472} = {D31C1A5B-8566-4A5C-AF85-8690402BAF1A}
 		{2ECCD1DB-5BA6-4154-B74E-BCF451C98F1C} = {EB765C4C-F52A-42F3-9CC3-14B39F0201D8}
+		{62B2DD44-1F48-4A52-BEBB-9F927F86421A} = {D31C1A5B-8566-4A5C-AF85-8690402BAF1A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1A25D020-4E1F-4E63-98D1-109969932C66}
