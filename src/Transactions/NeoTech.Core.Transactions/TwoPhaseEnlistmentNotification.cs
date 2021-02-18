@@ -4,7 +4,7 @@ using Microsoft;
 
 namespace NeoTech.Core.Transactions
 {
-	public class TwoPhaseEnlistmentNotification : IEnlistmentNotification
+	internal class TwoPhaseEnlistmentNotification : IEnlistmentNotification
 	{
 		public TwoPhaseEnlistmentNotification(ITransactionManager parent)
 		{

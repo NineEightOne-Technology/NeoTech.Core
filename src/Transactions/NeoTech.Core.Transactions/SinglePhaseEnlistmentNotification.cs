@@ -6,8 +6,6 @@ namespace NeoTech.Core.Transactions
 {
 	internal sealed class SinglePhaseEnlistmentNotification : TwoPhaseEnlistmentNotification, ISinglePhaseNotification
 	{
-		private readonly ITransactionManager _parent;
-
 		public SinglePhaseEnlistmentNotification(ITransactionManager parent)
 			: base(parent) { }
 
@@ -24,7 +22,7 @@ namespace NeoTech.Core.Transactions
 
 			try
 			{
-				foreach (var executeAction in _parent.OnExecuteActions)
+				foreach (var executeAction in Parent.OnExecuteActions)
 					executeAction();
 
 				preparingEnlistment.Done();
@@ -41,7 +39,7 @@ namespace NeoTech.Core.Transactions
 
 			try
 			{
-				foreach (var executeAction in _parent.OnExecuteActions)
+				foreach (var executeAction in Parent.OnExecuteActions)
 					executeAction();
 
 				singlePhaseEnlistment.Committed();

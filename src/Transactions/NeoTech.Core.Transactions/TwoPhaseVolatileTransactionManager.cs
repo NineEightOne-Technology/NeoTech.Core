@@ -19,11 +19,27 @@ namespace NeoTech.Core.Transactions
 
 		public void TrySubscribe()
 		{
-			if (Transaction.Current != null)
+			var currentTransaction = Transaction.Current;
+
+			if (currentTransaction != null)
 			{
-				Transaction.Current.EnlistVolatile(GetEnlistmentNotification(), EnlistmentOptions.None);
+				currentTransaction.TransactionCompleted += OnTransactionCompleted;
 
+				currentTransaction.EnlistVolatile(GetEnlistmentNotification(), EnlistmentOptions.None);
 
+				IsSubscribed = true;
+			}
+		}
+
+		private void OnTransactionCompleted(object sender, TransactionEventArgs _)
+		{
+			var transaction = sender as Transaction;
+
+			if (transaction != null)
+			{
+				transaction.TransactionCompleted -= OnTransactionCompleted;
+
+				IsSubscribed = false;
 			}
 		}
 

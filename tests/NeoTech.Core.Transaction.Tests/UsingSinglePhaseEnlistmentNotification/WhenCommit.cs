@@ -31,5 +31,20 @@ namespace NeoTech.Core.Transaction.Tests.UsingSinglePhaseEnlistmentNotification
 
 			ExecuteActionMock.Verify(x => x(), Times.Never);
 		}
+
+		[Fact]
+		public void ShouldNotComplete()
+		{
+			using (var transaction = new TransactionScope())
+			{
+				var enlistment = SystemTransaction.Current.EnlistVolatile(
+					EnlistmentNotificationMock.Object,
+					EnlistmentOptions.None);
+
+				Sut.Commit(enlistment);
+			}
+
+			CompleteActionMock.Verify(x => x(), Times.Never);
+		}
 	}
 }
