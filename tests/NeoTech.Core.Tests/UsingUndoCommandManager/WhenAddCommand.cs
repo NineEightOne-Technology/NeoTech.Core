@@ -1,11 +1,12 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using AutoFixture.Xunit2;
 using FluentAssertions;
-using Moq;
 using Xunit;
 
 namespace NeoTech.Transaction.Tests.UsingStackCommandManager
 {
-	public sealed class WhenAddCommand : StackCommandManagerTestBase
+	public sealed class WhenAddCommand : UndoCommandManagerTestBase
 	{
 		[Fact]
 		public void ShouldThrowOnActionNull()
@@ -15,15 +16,28 @@ namespace NeoTech.Transaction.Tests.UsingStackCommandManager
 				.Should().ThrowExactly<ArgumentNullException>();
 		}
 
-		[Fact]
-		public void ShouldAddCommandToExecutionStack()
+		[Theory]
+		[AutoData]
+		public void ShouldThrowIfCommandCountLargerThanMemory([Range(10, 1000)] int numberOfCommandsToAdd)
 		{
-			var action = new Mock<Action>();
+			Options.CommandMemory = numberOfCommandsToAdd - 1;
 
-			Sut.AddCommand(action.Object);
-			Sut.UndoAll();
+			Sut
+				.Invoking(x =>
+				{
+					AddSameCommand(numberOfCommandsToAdd);
+				})
+				.Should().ThrowExactly<InvalidOperationException>();
+		}
 
-			action.Verify(a => a(), Times.Once);
+		[Theory]
+		[AutoData]
+		public void ShouldAddCommandToExecutionStack([Range(10, 1000)] int numberOfCommandsToAdd)
+		{
+			AddSameCommand(numberOfCommandsToAdd);
+
+			Sut.Count
+				.Should().Be(numberOfCommandsToAdd);
 		}
 	}
 }

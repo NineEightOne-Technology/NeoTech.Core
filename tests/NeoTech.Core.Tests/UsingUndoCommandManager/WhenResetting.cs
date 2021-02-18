@@ -1,37 +1,41 @@
-﻿using AutoFixture.Xunit2;
-using FluentAssertions.Execution;
+﻿using System;
+using AutoFixture.Xunit2;
+using FluentAssertions;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using NeoTech.Transaction.Tests.UsingStackCommandManager;
 using Xunit;
+using DataAnnotationsRange = System.ComponentModel.DataAnnotations.RangeAttribute;
 
-namespace NeoTech.Transaction.Tests.UsingStackCommandManager
+namespace NeoTech.Core.Tests.UsingUndoCommandManager
 {
-	public sealed class WhenResetting : StackCommandManagerTestBase
+	public sealed class WhenResetting : UndoCommandManagerTestBase
 	{
 		[Theory]
 		[AutoData]
-		public void ShouldNotExecuteActionsAfterReset([Range(10, 100)] int numberOfActionsToInitializeWith)
+		public void ShouldClearListOfCommands(
+			[DataAnnotationsRange(10, 1000)] int numberOfCommandsToAdd)
 		{
-			var actionMocks = new List<Mock<Action>>();
+			AddSameCommand(numberOfCommandsToAdd);
 
-			for (int i = 0; i < numberOfActionsToInitializeWith; i++)
-			{
-				var actionMock = new Mock<Action>();
-
-				Sut.AddCommand(actionMock.Object);
-			}
+			Sut.Count
+				.Should().Be(numberOfCommandsToAdd);
 
 			Sut.Reset();
 
-			using (new AssertionScope())
-			{
-				foreach (var mockedAction in actionMocks)
-				{
-					mockedAction.Verify(action => action(), Times.Never);
-				}
-			}
+			Sut.Count
+				.Should().Be(0);
+		}
+
+		[Theory]
+		[AutoData]
+		public void ShouldNotExecute(
+			[DataAnnotationsRange(10, 1000)] int numberOfCommandsToAdd)
+		{
+			var actionMock = AddSameCommand(numberOfCommandsToAdd);
+
+			Sut.Reset();
+
+			actionMock.Verify(x => x(), Times.Never);
 		}
 	}
 }

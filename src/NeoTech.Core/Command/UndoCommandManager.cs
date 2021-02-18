@@ -53,37 +53,21 @@ namespace NeoTech.Core.Command
 				nameof(numberOfSteps),
 				"Cannot undo more steps than have been queued.");
 
-			if (_options.RetainCommands)
+			var startCount = _undoCommands.Count;
+
+			while (_undoCommands.Count > startCount - numberOfSteps)
 			{
-				var undoActions = new Action[numberOfSteps];
+				var undoAction = _undoCommands.Pop();
 
-				var enumerator = _undoCommands.GetEnumerator();
-
-				for (int i = 0; i < numberOfSteps; i++)
-				{
-					enumerator.MoveNext();
-
-					enumerator.Current();
-				}
+				undoAction();
 			}
-			else
-			{
-				var startCount = _undoCommands.Count;
 
-				while (_undoCommands.Count > startCount - numberOfSteps)
-				{
-					var undoAction = _undoCommands.Pop();
-
-					undoAction();
-				}
-			}
+			_undoCommands.TrimExcess();
 		}
 
 		public void UndoAll()
 		{
 			Undo(_undoCommands.Count);
-
-			Reset();
 		}
 
 		/// <summary>

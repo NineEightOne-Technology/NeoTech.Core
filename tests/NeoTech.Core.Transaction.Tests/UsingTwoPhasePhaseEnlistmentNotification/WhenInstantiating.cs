@@ -16,6 +16,7 @@ namespace NeoTech.Core.Transaction.Tests.UsingTwoPhasePhaseEnlistmentNotificatio
 			};
 
 			ctorAction
+				.Invoking(x => x())
 				.Should().ThrowExactly<ArgumentNullException>();
 		}
 	}

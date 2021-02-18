@@ -1,12 +1,14 @@
 ﻿using AutoFixture.Xunit2;
 using FluentAssertions;
 using Moq;
+using NeoTech.Core.Abstractions.Command;
+using NeoTech.Transaction.Tests.UsingStackCommandManager;
 using Xunit;
 using DataAnnotationsRange = System.ComponentModel.DataAnnotations.RangeAttribute;
 
-namespace NeoTech.Transaction.Tests.UsingStackCommandManager
+namespace NeoTech.Core.Tests.UsingUndoCommandManager
 {
-	public sealed class WhenUndoingAll : UndoCommandManagerTestBase
+	public sealed class WhenExecuting : UndoCommandManagerTestBase
 	{
 		[Theory]
 		[AutoData]
@@ -15,7 +17,7 @@ namespace NeoTech.Transaction.Tests.UsingStackCommandManager
 		{
 			var actionMock = AddSameCommand(numberOfCommandsToAdd);
 
-			Sut.UndoAll();
+			((ICommandManager)Sut).Execute();
 
 			actionMock.Verify(x => x(), Times.Exactly(numberOfCommandsToAdd));
 		}
@@ -27,7 +29,7 @@ namespace NeoTech.Transaction.Tests.UsingStackCommandManager
 		{
 			var actionMock = AddSameCommand(numberOfCommandsToAdd);
 
-			Sut.UndoAll();
+			((ICommandManager)Sut).Execute();
 
 			actionMock.Verify(x => x(), Times.Exactly(numberOfCommandsToAdd));
 
