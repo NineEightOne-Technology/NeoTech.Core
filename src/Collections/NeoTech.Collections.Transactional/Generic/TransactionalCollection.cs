@@ -15,6 +15,7 @@ namespace NeoTech.Collections.Transactional.Generic
 	public class TransactionalCollection<T> : Collection<T>
 	{
 		private readonly UndoCommandManager _commandManager;
+
 		private readonly SinglePhaseVolatileTransactionManager _transactionManager;
 
 		/// <summary>

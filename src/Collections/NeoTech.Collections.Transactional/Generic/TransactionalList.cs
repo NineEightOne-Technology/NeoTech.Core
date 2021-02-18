@@ -28,6 +28,7 @@ namespace NeoTech.Collections.Transactional.Generic
 		, IList
 	{
 		private readonly UndoCommandManager _commandManager;
+
 		private readonly SinglePhaseVolatileTransactionManager _transactionManager;
 
 		private readonly List<T> _internalStorage = new List<T>();

@@ -20,6 +20,7 @@ namespace NeoTech.Collections.Transactional.Generic
 	public sealed class TransactionalQueue<T> : IEnumerable<T>, IEnumerable, IReadOnlyCollection<T>, ICollection
 	{
 		private readonly UndoCommandManager _commandManager;
+
 		private readonly SinglePhaseVolatileTransactionManager _transactionManager;
 
 		private readonly Queue<T> _internalStorage = new Queue<T>();

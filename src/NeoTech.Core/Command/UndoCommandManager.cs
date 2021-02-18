@@ -13,9 +13,25 @@ namespace NeoTech.Core.Command
 		private readonly Stack<Action> _undoCommands;
 		private readonly UndoCommandManagerOptions _options;
 
+		/// <summary>
+		/// Creates a new instance of the <see cref="UndoCommandManager"/> class.
+		/// </summary>
+		/// <seealso cref="UndoCommandManager(UndoCommandManagerOptions)"/>
+		/// <remarks>
+		/// Dipatches instantiation to <see cref="UndoCommandManager(UndoCommandManagerOptions)"/>.
+		/// </remarks>
 		public UndoCommandManager()
 			: this(new UndoCommandManagerOptions()) { }
 
+		/// <summary>
+		/// Creates a new instance of the <see cref="UndoCommandManager"/> class.
+		/// </summary>
+		/// <param name="options">
+		/// options to influence the bahavior of this command manager.
+		/// </param>
+		/// <exception cref="ArgumentNullException">
+		/// If <paramref name="options"/> is <c>null</c>.
+		/// </exception>
 		public UndoCommandManager(UndoCommandManagerOptions options)
 		{
 			Requires.NotNull(options, nameof(options));
@@ -24,6 +40,9 @@ namespace NeoTech.Core.Command
 			_options = options;
 		}
 
+		/// <summary>
+		/// Gets the number of <see cref="Action"/>s that have been added.
+		/// </summary>
 		public int Count => _undoCommands.Count;
 
 		/// <summary>
@@ -45,6 +64,16 @@ namespace NeoTech.Core.Command
 			_undoCommands.Push(command);
 		}
 
+		/// <summary>
+		/// Pops <paramref name="numberOfSteps"/> command actions from the internal <see cref="Stack{T}"/> and
+		/// executes the actions.
+		/// </summary>
+		/// <param name="numberOfSteps">
+		/// The number of actions to pop and execute.
+		/// </param>
+		/// <exception cref="ArgumentException">
+		/// If <paramref name="numberOfSteps"/> is greater than <see cref="Count"/>.
+		/// </exception>
 		public void Undo(int numberOfSteps)
 		{
 			Requires.Argument(
@@ -64,6 +93,9 @@ namespace NeoTech.Core.Command
 			_undoCommands.TrimExcess();
 		}
 
+		/// <summary>
+		/// Pops all commands from the internal stack and executes them.
+		/// </summary>
 		public void UndoAll()
 		{
 			Undo(_undoCommands.Count);
@@ -80,6 +112,12 @@ namespace NeoTech.Core.Command
 			UndoAll();
 		}
 
+		/// <summary>
+		/// Gets an enumerator over all added commands.
+		/// </summary>
+		/// <returns>
+		/// An <see cref="IEnumerator{T}"/> over all added commands.
+		/// </returns>
 		public IEnumerator<Action> GetEnumerator() => _undoCommands.GetEnumerator();
 
 		/// <summary>
@@ -91,6 +129,12 @@ namespace NeoTech.Core.Command
 			_undoCommands.TrimExcess();
 		}
 
+		/// <summary>
+		/// Gets an enumerator over all added commands.
+		/// </summary>
+		/// <returns>
+		/// An <see cref="IEnumerator"/> over all added commands.
+		/// </returns>
 		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 	}
 }
