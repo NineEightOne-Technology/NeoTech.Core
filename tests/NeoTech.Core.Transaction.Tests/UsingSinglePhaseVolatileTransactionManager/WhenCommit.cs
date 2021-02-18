@@ -33,7 +33,7 @@ namespace NeoTech.Core.Transaction.Tests.UsingSinglePhaseEnlistmentNotification
 		}
 
 		[Fact]
-		public void ShouldNotComplete()
+		public void ShouldComplete()
 		{
 			using (var transaction = new TransactionScope())
 			{
@@ -44,7 +44,7 @@ namespace NeoTech.Core.Transaction.Tests.UsingSinglePhaseEnlistmentNotification
 				SutAsEnlistmentNotification.Commit(enlistment);
 			}
 
-			CompleteActionMock.Verify(x => x(), Times.Never);
+			CompleteActionMock.Verify(x => x(), Times.Once);
 		}
 	}
 }
