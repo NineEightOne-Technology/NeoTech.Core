@@ -31,17 +31,9 @@ namespace NeoTech.Collections.Transactional.Generic
 		{
 			_commandManager = new UndoCommandManager();
 
-			_transactionManager = new SinglePhaseVolatileTransactionManager
-			{
-				OnCompletionActions =
-				{
-					() => _commandManager.Reset()
-				},
-				OnRollbackActions =
-				{
-					() => _commandManager.UndoAll()
-				}
-			};
+			_transactionManager = new SinglePhaseVolatileTransactionManager();
+			_transactionManager.AddCompletionCallback(() => _commandManager.Reset());
+			_transactionManager.AddRollbackCallback(() => _commandManager.UndoAll());
 		}
 
 		/// <inheritdoc />
@@ -56,9 +48,7 @@ namespace NeoTech.Collections.Transactional.Generic
 		/// <inheritdoc />
 		public void Clear()
 		{
-			_transactionManager.TrySubscribe();
-
-			if (_transactionManager.IsSubscribed)
+			if (_transactionManager.TrySubscribe())
 			{
 				var backup = new T[_internalStorage.Count];
 				_internalStorage.CopyTo(backup, 0);
@@ -85,9 +75,7 @@ namespace NeoTech.Collections.Transactional.Generic
 		{
 			T item = _internalStorage.Dequeue();
 
-			_transactionManager.TrySubscribe();
-
-			if (_transactionManager.IsSubscribed)
+			if (_transactionManager.TrySubscribe())
 			{
 				_commandManager.AddCommand(
 					() =>
@@ -109,9 +97,7 @@ namespace NeoTech.Collections.Transactional.Generic
 		/// <inheritdoc />
 		public void Enqueue(T item)
 		{
-			_transactionManager.TrySubscribe();
-
-			if (_transactionManager.IsSubscribed)
+			if (_transactionManager.TrySubscribe())
 			{
 				var backup = new T[_internalStorage.Count];
 				CopyTo(backup, 0);

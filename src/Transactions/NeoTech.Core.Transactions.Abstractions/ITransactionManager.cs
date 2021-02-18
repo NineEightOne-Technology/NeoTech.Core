@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace NeoTech.Core.Transactions
 {
 	public interface ITransactionManager
 	{
-		IList<Action> OnCompletionActions { get; }
+		void AddCompletionCallback(Action callback);
 
-		IList<Action> OnRollbackActions { get; }
+		void AddRollbackCallback(Action callback);
 
-		IList<Action> OnExecuteActions { get; }
+		void AddExecuteCallback(Action callback);
 
-		void TrySubscribe();
-
-		bool IsSubscribed { get; }
+		bool TrySubscribe();
 	}
 }

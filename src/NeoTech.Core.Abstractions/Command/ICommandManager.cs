@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NeoTech.Core.Abstractions.Command
+namespace NeoTech.Core.Command
 {
 	public interface ICommandManager : IReadOnlyCollection<Action>
 	{

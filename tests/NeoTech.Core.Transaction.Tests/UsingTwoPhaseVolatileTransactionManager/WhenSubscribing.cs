@@ -1,63 +1,33 @@
-﻿using System.Transactions;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Transactions;
+using AutoFixture.Xunit2;
 using FluentAssertions;
-using NeoTech.Core.Transactions;
+using FluentAssertions.Execution;
+using NeoTech.Core.Transaction.Tests.UsingTwoPhasePhaseEnlistmentNotification;
 using Xunit;
 
-namespace NeoTech.Transaction.Tests.UsingEnlistmentNotificationManager
+namespace NeoTech.Core.Transaction.Tests.UsingTwoPhaseVolatileTransactionManager
 {
-	public sealed class WhenSubscribing
+	public sealed class WhenSubscribing : TwoPhaseVolatileTransactionManagerTestBase
 	{
-		private readonly ITransactionManager _sut;
-
-		public WhenSubscribing()
-		{
-			_sut = new TwoPhaseVolatileTransactionManager();
-		}
-
 		[Fact]
 		public void ShouldSubscribeOnExistingTransaction()
 		{
 			using (new TransactionScope())
 			{
-				_sut.TrySubscribe();
+				bool result = Sut.TrySubscribe();
 
-				_sut.IsSubscribed
+				result
 					.Should().BeTrue();
 			}
 		}
 
 		[Fact]
-		public void ShouldUnsubscribeOnCommit()
-		{
-			using (var transactionScope = new TransactionScope())
-			{
-				_sut.TrySubscribe();
-
-				transactionScope.Complete();
-			}
-
-			_sut.IsSubscribed
-				.Should().BeFalse();
-		}
-
-		[Fact]
-		public void ShouldUnsubscribeOnRollback()
-		{
-			using (new TransactionScope())
-			{
-				_sut.TrySubscribe();
-			}
-
-			_sut.IsSubscribed
-				.Should().BeFalse();
-		}
-
-		[Fact]
 		public void ShouldNotSubscribeOnNonExistingTransaction()
 		{
-			_sut.TrySubscribe();
+			bool result = Sut.TrySubscribe();
 
-			_sut.IsSubscribed
+			result
 				.Should().BeFalse();
 		}
 	}

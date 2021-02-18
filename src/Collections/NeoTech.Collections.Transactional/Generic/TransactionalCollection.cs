@@ -24,32 +24,25 @@ namespace NeoTech.Collections.Transactional.Generic
 		{
 			_commandManager = new UndoCommandManager();
 
-			_transactionManager = new SinglePhaseVolatileTransactionManager
-			{
-				OnExecuteActions =
-				{
-					() => _commandManager.Reset()
-				},
-				OnRollbackActions =
-				{
-					() => _commandManager.UndoAll()
-				}
-			};
+			_transactionManager = new SinglePhaseVolatileTransactionManager();
+			_transactionManager.AddExecuteCallback(() => _commandManager.Reset());
+			_transactionManager.AddRollbackCallback(() => _commandManager.UndoAll());
 		}
-
 		/// <inheritdoc />
 		protected override void ClearItems()
 		{
-			_transactionManager.TrySubscribe();
-
-			if (_transactionManager.IsSubscribed)
+			if (_transactionManager.TrySubscribe())
 			{
 				var scopedItems = Items.ToArray();
 
 				_commandManager.AddCommand(() =>
 				{
-					foreach (var item in scopedItems)
-						Add(item);
+					for (int i = 0; i < scopedItems.Length; i++)
+					{
+						var currentItem = scopedItems[i];
+
+						base.InsertItem(i, currentItem);
+					}
 				});
 			}
 
@@ -59,9 +52,7 @@ namespace NeoTech.Collections.Transactional.Generic
 		/// <inheritdoc />
 		protected override void InsertItem(int index, T item)
 		{
-			_transactionManager.TrySubscribe();
-
-			if (_transactionManager.IsSubscribed)
+			if (_transactionManager.TrySubscribe())
 			{
 				var scopedIndex = index;
 
@@ -74,9 +65,8 @@ namespace NeoTech.Collections.Transactional.Generic
 		/// <inheritdoc />
 		protected override void RemoveItem(int index)
 		{
-			_transactionManager.TrySubscribe();
 
-			if (_transactionManager.IsSubscribed)
+			if (_transactionManager.TrySubscribe())
 			{
 				int scopedIndex = index;
 				T itemScoped = this[scopedIndex];
@@ -90,9 +80,7 @@ namespace NeoTech.Collections.Transactional.Generic
 		/// <inheritdoc />
 		protected override void SetItem(int index, T item)
 		{
-			_transactionManager.TrySubscribe();
-
-			if (_transactionManager.IsSubscribed)
+			if (_transactionManager.TrySubscribe())
 			{
 				int indexScoped = index;
 				T itemScoped = this[indexScoped];

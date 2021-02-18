@@ -3,15 +3,15 @@ using FluentAssertions;
 using NeoTech.Core.Transaction.Tests.UsingTwoPhasePhaseEnlistmentNotification;
 using Xunit;
 
-namespace NeoTech.Transaction.Tests.UsingEnlistmentNotification
+namespace NeoTech.Core.Transaction.Tests.UsingTwoPhaseVolatileTransactionManager
 {
-	public sealed class WhenInDoubt : TwoPhaseEnlistmentNotificationTestBase
+	public sealed class WhenPrepare : TwoPhaseVolatileTransactionManagerTestBase
 	{
 		[Fact]
 		public void ShouldThrowOnEnlistmentNull()
 		{
-			Sut
-				.Invoking(x => x.InDoubt(null))
+			SutAsEnlistmentNotification
+				.Invoking(x => x.Prepare(null))
 				.Should().ThrowExactly<ArgumentNullException>();
 		}
 	}

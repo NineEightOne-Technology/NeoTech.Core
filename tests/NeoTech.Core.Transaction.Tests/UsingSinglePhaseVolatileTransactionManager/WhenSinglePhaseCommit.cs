@@ -4,13 +4,13 @@ using Xunit;
 
 namespace NeoTech.Core.Transaction.Tests.UsingSinglePhaseEnlistmentNotification
 {
-	public sealed class WhenPrepare : SinglePhaseEnlistmentNotificationTestBase
+	public sealed class WhenSinglePhaseCommit : SinglePhaseVolatileTransactionManagerTestBase
 	{
 		[Fact]
 		public void ShouldThrowOnEnlistmentNull()
 		{
-			Sut
-				.Invoking(x => x.Prepare(null))
+			SutAsEnlistmentNotification
+				.Invoking(x => x.SinglePhaseCommit(null))
 				.Should().ThrowExactly<ArgumentNullException>();
 		}
 	}

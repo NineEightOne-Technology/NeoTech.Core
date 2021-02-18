@@ -39,17 +39,9 @@ namespace NeoTech.Collections.Transactional.Generic
 		{
 			_commandManager = new UndoCommandManager();
 
-			_transactionManager = new SinglePhaseVolatileTransactionManager
-			{
-				OnExecuteActions =
-				{
-					() => _commandManager.Reset(),
-				},
-				OnRollbackActions =
-				{
-					() => _commandManager.UndoAll()
-				}
-			};
+			_transactionManager = new SinglePhaseVolatileTransactionManager();
+			_transactionManager.AddExecuteCallback(() => _commandManager.Reset());
+			_transactionManager.AddRollbackCallback(() => _commandManager.UndoAll());
 		}
 
 		/// <inheritdoc />
@@ -58,9 +50,7 @@ namespace NeoTech.Collections.Transactional.Generic
 			get => _internalStorage[index];
 			set
 			{
-				_transactionManager.TrySubscribe();
-
-				if (_transactionManager.IsSubscribed)
+				if (_transactionManager.TrySubscribe())
 				{
 					var indexScoped = index;
 					var currentItemScoped = _internalStorage[index];
@@ -107,9 +97,7 @@ namespace NeoTech.Collections.Transactional.Generic
 		{
 			var insertionIndex = ((IList)_internalStorage).Add(value);
 
-			_transactionManager.TrySubscribe();
-
-			if (_transactionManager.IsSubscribed)
+			if (_transactionManager.TrySubscribe())
 				_commandManager.AddCommand(() => ((IList)_internalStorage).RemoveAt(insertionIndex));
 
 			return insertionIndex;
@@ -118,9 +106,7 @@ namespace NeoTech.Collections.Transactional.Generic
 		/// <inheritdoc />
 		public void Clear()
 		{
-			_transactionManager.TrySubscribe();
-
-			if (_transactionManager.IsSubscribed)
+			if (_transactionManager.TrySubscribe())
 			{
 				var currentItemsScoped = _internalStorage.ToArray();
 
@@ -168,9 +154,7 @@ namespace NeoTech.Collections.Transactional.Generic
 		/// <inheritdoc />
 		public void Insert(int index, T item)
 		{
-			_transactionManager.TrySubscribe();
-
-			if (_transactionManager.IsSubscribed)
+			if (_transactionManager.TrySubscribe())
 			{
 				var scopedIndex = index;
 
@@ -214,9 +198,7 @@ namespace NeoTech.Collections.Transactional.Generic
 
 			_internalStorage.RemoveAt(index);
 
-			_transactionManager.TrySubscribe();
-
-			if (_transactionManager.IsSubscribed)
+			if (_transactionManager.TrySubscribe())
 			{
 				var indexScoped = index;
 

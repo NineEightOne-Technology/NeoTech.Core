@@ -7,12 +7,12 @@ using SystemTransaction = System.Transactions.Transaction;
 
 namespace NeoTech.Core.Transaction.Tests.UsingSinglePhaseEnlistmentNotification
 {
-	public sealed class WhenCommit : SinglePhaseEnlistmentNotificationTestBase
+	public sealed class WhenCommit : SinglePhaseVolatileTransactionManagerTestBase
 	{
 		[Fact]
 		public void ShouldThrowOnEnlistmentNull()
 		{
-			Sut
+			SutAsEnlistmentNotification
 				.Invoking(x => x.Commit(null))
 				.Should().ThrowExactly<ArgumentNullException>();
 		}
@@ -23,10 +23,10 @@ namespace NeoTech.Core.Transaction.Tests.UsingSinglePhaseEnlistmentNotification
 			using (var transaction = new TransactionScope())
 			{
 				var enlistment = SystemTransaction.Current.EnlistVolatile(
-					EnlistmentNotificationMock.Object,
+					SutAsEnlistmentNotification,
 					EnlistmentOptions.None);
 
-				Sut.Commit(enlistment);
+				SutAsEnlistmentNotification.Commit(enlistment);
 			}
 
 			ExecuteActionMock.Verify(x => x(), Times.Never);
@@ -38,10 +38,10 @@ namespace NeoTech.Core.Transaction.Tests.UsingSinglePhaseEnlistmentNotification
 			using (var transaction = new TransactionScope())
 			{
 				var enlistment = SystemTransaction.Current.EnlistVolatile(
-					EnlistmentNotificationMock.Object,
+					SutAsEnlistmentNotification,
 					EnlistmentOptions.None);
 
-				Sut.Commit(enlistment);
+				SutAsEnlistmentNotification.Commit(enlistment);
 			}
 
 			CompleteActionMock.Verify(x => x(), Times.Never);

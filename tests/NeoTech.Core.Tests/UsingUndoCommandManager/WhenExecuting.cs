@@ -1,7 +1,7 @@
 ﻿using AutoFixture.Xunit2;
 using FluentAssertions;
 using Moq;
-using NeoTech.Core.Abstractions.Command;
+using NeoTech.Core.Command;
 using NeoTech.Transaction.Tests.UsingStackCommandManager;
 using Xunit;
 using DataAnnotationsRange = System.ComponentModel.DataAnnotations.RangeAttribute;
